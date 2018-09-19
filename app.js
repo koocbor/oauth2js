@@ -1,5 +1,5 @@
 // app.js
-
+const fs = require('fs');
 const mongooseConnection = require('./repository/db')
 
 // Setup database repository later
@@ -10,10 +10,14 @@ const userDb = require('./repository/userdb')(mongooseConnection)
 const authService = require('./service/authService')(authDb, userDb);
 const userService = require('./service/userService')(userDb);
 
+// Setup any metadata that must be in place for the application to work.
+const startup = require('./startup')(authService);
+startup.seed();
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
-var app = express();
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( { extended: true }));
 
@@ -23,9 +27,9 @@ const oAuthModel = require('./oauth/oauthModel')(authService, userService);
 app.oauth = new oAuthServer({
     debug: true,
     model: oAuthModel,
-    grants: [ 'password' ],
+    grants: [ 'password', 'refresh_token' ],
     allowExtendedTokenAttributes: true, 
-    alwaysIssueNewRefreshToken: false, 
+    alwaysIssueNewRefreshToken: true, 
     requireClientAuthentication: {}, 
     accessTokenLifetime:1800,
     refreshTokenLifetime: 3600

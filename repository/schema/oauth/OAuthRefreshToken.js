@@ -3,11 +3,11 @@
 var mongoose = require('mongoose')
 
 var RefreshTokenSchema = new mongoose.Schema({
-  refresh_token: String,
+  client_id: String,
   expires: Date,
+  refresh_token: String,
   scope:  String,
-  user_id: String,
-  OAuthClient: { type : mongoose.Schema.Types.ObjectId, ref: 'OAuthClient' },
+  user_id: String
 });
 
 module.exports = mongoose.model('RefreshToken', RefreshTokenSchema);

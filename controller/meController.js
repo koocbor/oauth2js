@@ -36,6 +36,8 @@ async function updateMe(req, res, next) {
         const userId = res.locals.oauth.token.user_id;
         const oauthUser = res.locals.oauth.token.user;
 
+        console.log(`userId: ${userId}`);
+
         var user = req.body;
         
         user._id = userId;

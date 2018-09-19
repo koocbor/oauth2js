@@ -5,10 +5,10 @@ var mongoose = require('mongoose'),
 
 var OAuthAccessTokenSchema = new Schema({
     access_token: String,
+    client_id: String,
     expires: Date,
     scope: String,
-    user_id: String,
-    OAuthClient: { type: mongoose.Schema.Types.ObjectId, ref: "OAuthClient" }
+    user_id: String
 });
 
 module.exports = mongoose.model("OAuthAccessToken", OAuthAccessTokenSchema);
