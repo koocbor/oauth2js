@@ -1,0 +1,53 @@
+---
+openapi: 3.0.1
+info:
+  title: Teambuildr
+  version: 1.0.0
+paths:
+  /me:
+    get:
+      description: Get me
+      security:
+        - OAuth2: 
+          - urn:teambuildr:me
+      responses:
+        200:
+          description: My user object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users:
+    get:
+      description: Get list of users
+      security:
+        - OAuth2:
+          - urn:teambuildr:admin
+      responses:
+        200:
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items: '#/components/schemas/User'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: /oauth/token
+          refreshUrl: /oauth/token
+          scopes:
+            urn:teambuildr:me: read and write all information related to your account
+            urn:teambuildr:coach: access to coach related api endpoints
+            urn:teambuildr:admin: access to admin related api endpoints

@@ -1,0 +1,93 @@
+---
+openapi: 3.0.1
+info:
+  title: Teambuildr
+  version: 3.0.0
+paths:
+  /me:
+    description: Endpoints related to the currently logged in user.
+    get:
+      description: get current user details
+      responses:
+        200:
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+      - OAuth:
+        - urn:teambuildr:me
+  /users:
+    get:
+      description: return a list of users
+      parameters:
+      - name: page
+        in: query
+        description: the page index to return
+        required: false
+        schema:
+          type: integer
+      - name: pageSize
+        in: query
+        description: the maximum number of users to return per page
+        schema:
+          type: integer
+      responses:
+        200:
+          description: a list of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+      security:
+      - OAuth:
+        - urn:teambuildr:admin
+  /users/{userId}:
+    get:
+      description: get user associated with passed id
+      responses:
+        200:
+          description: the user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      security:
+      - OAuth:
+        - urn:teambuildr:admin
+    parameters:
+    - name: userId
+      in: path
+      description: unique id of the user being retrieved
+      required: true
+      schema:
+        type: string
+components:
+  schemas:
+    User:
+      properties:
+        userId:
+          description: unique id of the user
+          type: integer
+        firstName:
+          description: first name of user
+          type: string
+        lastName:
+          description: last name of user
+          type: string
+  securitySchemes:
+    OAuth:
+      type: oauth2
+      description: Password Flow
+      flows:
+        password:
+          tokenUrl: https://localhost/oauth/token
+          refreshUrl: https://localhost/oauth/token
+          scopes:
+            offline_access: Allow refresh token to be returned.
+            urn:teambuildr:me: Allows access to logged in user related endpoints.
+            urn:teambuildr:coach: Allow access to coach related api endpoints.
+            urn:teambuildr:admin: Allow access to admin related api ednpoints.
