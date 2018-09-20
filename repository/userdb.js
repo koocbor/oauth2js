@@ -1,39 +1,33 @@
-var Promise = require('bluebird');
-var User = require('./schema/user/User');
-
-let mongoConnection;
-
-module.exports = injectedMongoConnection => {
-    mongoConnection = injectedMongoConnection
-
-    return {
-        getUserById: getUserById,
-        getUserByUsername: getUserByUsername,
-        getUsers: getUsers,
-        registerUser: registerUser,
-        updateUser: updateUser
-    }
-}
+const User = require('./schema/user/User');
 
 async function getUserById(id) {
-    return await User.findById(id);
+  return User.findById(id);
 }
 
 async function getUserByUsername(username) {
-    return await User.findOne( { 'username': username });
+  return User.findOne({ username });
 }
 
 async function getUsers() {
-    return await User.find( {} );
+  return User.find({});
 }
 
 async function registerUser(username, password) {
-    return await User.create({
-        username: username,
-        password: password
-    });
+  return User.create({
+    username,
+    password,
+  });
 }
 
 async function updateUser(user) {
-    return await User.findOneAndUpdate( { '_id': user._id }, user);
+  // eslint-disable-next-line no-underscore-dangle
+  return User.findOneAndUpdate({ _id: user._id }, user);
 }
+
+module.exports = {
+  getUserById,
+  getUserByUsername,
+  getUsers,
+  registerUser,
+  updateUser,
+};

@@ -11,3 +11,4 @@ Current routes (I need to get some OpenAPI action going on this):
 - `GET /me` - Returns the currently logged in user. Uses `Authorization Bearer {access_token}` for authorization.
 - `PATCH /me` - Updates the logged in user with the data passed as a JSON body.
 - `GET /users` - Returns a list of all users in the system if the requesting user has either a `coach` or `admin` role.
+

@@ -1,7 +1,6 @@
-var port = process.env.PORT || 4000;
-var app = require('./app');
+const port = process.env.PORT || 4000;
+const app = require('./app');
 
-var server = app.listen(port, function() {
-    console.log(`Express server listener in port ${port}`);
-})
-
+app.listen(port, () => {
+  console.log(`Express server listener in port ${port}`);
+});

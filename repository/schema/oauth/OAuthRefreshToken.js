@@ -1,13 +1,11 @@
-'use strict';
+const mongoose = require('mongoose');
 
-var mongoose = require('mongoose')
-
-var RefreshTokenSchema = new mongoose.Schema({
+const RefreshTokenSchema = new mongoose.Schema({
   client_id: String,
   expires: Date,
   refresh_token: String,
-  scope:  String,
-  user_id: String
+  scope: String,
+  user_id: String,
 });
 
 module.exports = mongoose.model('RefreshToken', RefreshTokenSchema);
